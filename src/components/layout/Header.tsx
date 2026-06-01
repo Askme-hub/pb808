@@ -1,0 +1,115 @@
+import { Link, useNavigate } from "@tanstack/react-router";
+import { Menu, X, LogOut, User as UserIcon, Crown, Shield } from "lucide-react";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Wordmark } from "@/components/brand/Logo";
+import { useAuth } from "@/lib/auth";
+
+const NAV = [
+  { to: "/", label: "Home" },
+  { to: "/predictions", label: "Free Tips" },
+  { to: "/vip", label: "VIP" },
+  { to: "/results", label: "Results" },
+  { to: "/blog", label: "Blog" },
+] as const;
+
+export function Header() {
+  const [open, setOpen] = useState(false);
+  const { user, isVip, isAdmin, signOut } = useAuth();
+  const navigate = useNavigate();
+
+  return (
+    <header className="sticky top-0 z-50 border-b border-border/60 bg-background/80 backdrop-blur-xl">
+      <div className="container mx-auto flex h-16 items-center justify-between px-4">
+        <Link to="/" className="shrink-0"><Wordmark /></Link>
+
+        <nav className="hidden items-center gap-1 md:flex">
+          {NAV.map((n) => (
+            <Link
+              key={n.to}
+              to={n.to}
+              className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+              activeProps={{ className: "rounded-md px-3 py-2 text-sm font-medium text-foreground bg-accent" }}
+            >
+              {n.label}
+            </Link>
+          ))}
+        </nav>
+
+        <div className="hidden items-center gap-2 md:flex">
+          {user ? (
+            <>
+              {isAdmin && (
+                <Button asChild variant="outline" size="sm">
+                  <Link to="/admin"><Shield className="mr-1 h-4 w-4" />Admin</Link>
+                </Button>
+              )}
+              <Button asChild variant="ghost" size="sm">
+                <Link to="/dashboard">
+                  {isVip ? <Crown className="mr-1 h-4 w-4 text-gold" /> : <UserIcon className="mr-1 h-4 w-4" />}
+                  Dashboard
+                </Link>
+              </Button>
+              <Button size="sm" variant="ghost" onClick={async () => { await signOut(); navigate({ to: "/" }); }}>
+                <LogOut className="h-4 w-4" />
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button asChild variant="ghost" size="sm"><Link to="/login">Login</Link></Button>
+              <Button asChild size="sm" className="bg-gradient-primary shadow-glow">
+                <Link to="/signup">Get Started</Link>
+              </Button>
+            </>
+          )}
+        </div>
+
+        <button
+          aria-label="Toggle menu"
+          className="rounded-md p-2 text-foreground md:hidden"
+          onClick={() => setOpen(!open)}
+        >
+          {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+        </button>
+      </div>
+
+      {open && (
+        <div className="border-t border-border/60 bg-background md:hidden">
+          <div className="container mx-auto flex flex-col gap-1 px-4 py-3">
+            {NAV.map((n) => (
+              <Link
+                key={n.to}
+                to={n.to}
+                onClick={() => setOpen(false)}
+                className="rounded-md px-3 py-2 text-sm font-medium text-foreground hover:bg-accent"
+              >
+                {n.label}
+              </Link>
+            ))}
+            <div className="mt-2 flex gap-2 pt-2 border-t border-border/60">
+              {user ? (
+                <>
+                  <Button asChild variant="outline" className="flex-1" onClick={() => setOpen(false)}>
+                    <Link to="/dashboard">Dashboard</Link>
+                  </Button>
+                  <Button variant="ghost" onClick={async () => { await signOut(); setOpen(false); navigate({ to: "/" }); }}>
+                    <LogOut className="h-4 w-4" />
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button asChild variant="outline" className="flex-1" onClick={() => setOpen(false)}>
+                    <Link to="/login">Login</Link>
+                  </Button>
+                  <Button asChild className="flex-1 bg-gradient-primary" onClick={() => setOpen(false)}>
+                    <Link to="/signup">Sign Up</Link>
+                  </Button>
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+    </header>
+  );
+}
