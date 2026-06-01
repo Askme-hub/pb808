@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
 import { formatGHS } from "@/lib/format";
+import { CheckoutButton } from "@/components/payments/CheckoutButton";
 
 export const Route = createFileRoute("/vip")({
   head: () => ({
