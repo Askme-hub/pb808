@@ -23,6 +23,7 @@ import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated.dashboard'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated.admin'
 import { Route as AuthenticatedAdminPredictionsRouteImport } from './routes/_authenticated.admin.predictions'
+import { Route as ApiPublicPaystackWebhookRouteImport } from './routes/api.public.paystack.webhook'
 
 const VipRoute = VipRouteImport.update({
   id: '/vip',
@@ -94,6 +95,12 @@ const AuthenticatedAdminPredictionsRoute =
     path: '/predictions',
     getParentRoute: () => AuthenticatedAdminRoute,
   } as any)
+const ApiPublicPaystackWebhookRoute =
+  ApiPublicPaystackWebhookRouteImport.update({
+    id: '/api/public/paystack/webhook',
+    path: '/api/public/paystack/webhook',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -109,6 +116,7 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/admin/predictions': typeof AuthenticatedAdminPredictionsRoute
+  '/api/public/paystack/webhook': typeof ApiPublicPaystackWebhookRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -124,6 +132,7 @@ export interface FileRoutesByTo {
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/admin/predictions': typeof AuthenticatedAdminPredictionsRoute
+  '/api/public/paystack/webhook': typeof ApiPublicPaystackWebhookRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -141,6 +150,7 @@ export interface FileRoutesById {
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/_authenticated/admin/predictions': typeof AuthenticatedAdminPredictionsRoute
+  '/api/public/paystack/webhook': typeof ApiPublicPaystackWebhookRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -158,6 +168,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/blog/$slug'
     | '/admin/predictions'
+    | '/api/public/paystack/webhook'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -173,6 +184,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/blog/$slug'
     | '/admin/predictions'
+    | '/api/public/paystack/webhook'
   id:
     | '__root__'
     | '/'
@@ -189,6 +201,7 @@ export interface FileRouteTypes {
     | '/_authenticated/dashboard'
     | '/blog/$slug'
     | '/_authenticated/admin/predictions'
+    | '/api/public/paystack/webhook'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -202,6 +215,7 @@ export interface RootRouteChildren {
   SignupRoute: typeof SignupRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   VipRoute: typeof VipRoute
+  ApiPublicPaystackWebhookRoute: typeof ApiPublicPaystackWebhookRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -304,6 +318,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminPredictionsRouteImport
       parentRoute: typeof AuthenticatedAdminRoute
     }
+    '/api/public/paystack/webhook': {
+      id: '/api/public/paystack/webhook'
+      path: '/api/public/paystack/webhook'
+      fullPath: '/api/public/paystack/webhook'
+      preLoaderRoute: typeof ApiPublicPaystackWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -353,7 +374,18 @@ const rootRouteChildren: RootRouteChildren = {
   SignupRoute: SignupRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   VipRoute: VipRoute,
+  ApiPublicPaystackWebhookRoute: ApiPublicPaystackWebhookRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
