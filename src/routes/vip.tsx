@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/lib/auth";
 import { supabase } from "@/integrations/supabase/client";
 import { formatGHS } from "@/lib/format";
+import { CheckoutButton } from "@/components/payments/CheckoutButton";
 
 export const Route = createFileRoute("/vip")({
   head: () => ({
@@ -83,14 +84,12 @@ function VipPage() {
                   <li className="flex gap-2"><ShieldCheck className="h-4 w-4 text-success" />All VIP predictions</li>
                   <li className="flex gap-2"><Zap className="h-4 w-4 text-primary-glow" />Instant access</li>
                 </ul>
-                <Button
-                  asChild
+                <CheckoutButton
+                  plan={p.plan as "daily" | "monthly" | "quarterly" | "lifetime"}
                   className={`mt-6 w-full ${p.popular ? "bg-gradient-gold text-gold-foreground" : "bg-gradient-primary"}`}
                 >
-                  <Link to={user ? "/dashboard" : "/signup"}>
-                    {user ? (isVip ? "You're VIP ✓" : "Upgrade") : "Get Started"}
-                  </Link>
-                </Button>
+                  {user ? (isVip ? "Extend VIP" : "Subscribe") : "Get Started"}
+                </CheckoutButton>
               </Card>
             ))}
           </div>
