@@ -22,12 +22,12 @@ export const Route = createFileRoute("/vip")({
   component: VipPage,
 });
 
-const PLANS = [
+const PLANS: { plan: string; label: string; price: number; duration: string; popular?: boolean }[] = [
   { plan: "daily", label: "Daily Pass", price: 5100, duration: "24 hours", popular: true },
   { plan: "monthly", label: "Monthly", price: 30000, duration: "30 days" },
   { plan: "quarterly", label: "Quarterly", price: 80000, duration: "90 days" },
   { plan: "lifetime", label: "Lifetime", price: 500000, duration: "Forever" },
-] as const;
+];
 
 function VipPage() {
   const { user, isVip } = useAuth();
