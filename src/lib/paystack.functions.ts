@@ -155,7 +155,7 @@ async function activateSubscription(
 
   await supabaseAdmin.from("notifications").insert({
     user_id: userId,
-    type: "subscription",
+    type: "payment_confirmation",
     title: "VIP activated 🎉",
     body: `${plan.label} plan activated${newExpires ? ` until ${new Date(newExpires).toUTCString()}` : " (lifetime)"}.`,
     url: "/dashboard",
