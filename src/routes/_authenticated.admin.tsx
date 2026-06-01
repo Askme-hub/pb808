@@ -82,10 +82,18 @@ function AdminHome() {
             </Card>
           ))}
         </div>
-        <Card className="mt-8 p-6">
+        <Card className="mt-8 flex flex-col items-start gap-3 p-6 md:flex-row md:items-center md:justify-between">
+          <div>
+            <h2 className="font-display text-lg font-bold">Manage Predictions</h2>
+            <p className="text-sm text-muted-foreground">Create, edit, publish and mark results for free & VIP tips.</p>
+          </div>
+          <Link to="/admin/predictions" className="rounded-md bg-gradient-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-glow">
+            Open predictions →
+          </Link>
+        </Card>
+        <Card className="mt-4 p-6">
           <p className="text-sm text-muted-foreground">
-            The full admin panel (Predictions CRUD, Subscribers, Ads, Blog, Settings, Notifications) ships in Phase 4.
-            Reply to grant your account the <code>admin</code> role and provide Paystack keys to unlock Phase 3.
+            Subscribers, Ads, Blog, Settings & Notifications ship in the next phases. Paystack checkout unlocks once you add your keys.
           </p>
         </Card>
       </main>
