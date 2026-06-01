@@ -76,11 +76,21 @@ function AdminPredictions() {
 
   const upsert = useMutation({
     mutationFn: async (r: Partial<Row>) => {
+      if (!r.match_name || !r.league || !r.tip || !r.match_date || !r.match_time) {
+        throw new Error("Match, league, tip, date and time are required.");
+      }
       const payload = {
-        category: r.category, match_name: r.match_name?.trim(), league: r.league?.trim(),
-        match_date: r.match_date, match_time: r.match_time, tip: r.tip?.trim(),
-        odds: Number(r.odds), confidence: r.confidence, status: r.status,
-        is_published: !!r.is_published, analysis: r.analysis || null,
+        category: r.category ?? "free",
+        match_name: r.match_name.trim(),
+        league: r.league.trim(),
+        match_date: r.match_date,
+        match_time: r.match_time,
+        tip: r.tip.trim(),
+        odds: Number(r.odds ?? 1.5),
+        confidence: r.confidence ?? "medium",
+        status: r.status ?? "pending",
+        is_published: !!r.is_published,
+        analysis: r.analysis || null,
         result_score: r.result_score || null,
       };
       if (r.id) {
