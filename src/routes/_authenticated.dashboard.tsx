@@ -20,7 +20,32 @@ export const Route = createFileRoute("/_authenticated/dashboard")({
 });
 
 function Dashboard() {
-  const { user, isVip } = useAuth();
+  const { user, isVip, refresh } = useAuth();
+  const qc = useQueryClient();
+  const verify = useServerFn(verifyPaystackPayment);
+  const verified = useRef(false);
+
+  useEffect(() => {
+    if (verified.current) return;
+    const params = new URLSearchParams(window.location.search);
+    const reference = params.get("reference") || params.get("trxref");
+    if (params.get("paystack") === "verify" && reference) {
+      verified.current = true;
+      verify({ data: { reference } })
+        .then(async (r) => {
+          if (r.ok) {
+            toast.success("Payment confirmed — VIP unlocked!");
+            await refresh();
+            qc.invalidateQueries();
+          } else {
+            toast.error("Payment not yet confirmed. It may take a moment.");
+          }
+          window.history.replaceState({}, "", "/dashboard");
+        })
+        .catch((e) => toast.error(e?.message ?? "Verification failed"));
+    }
+  }, [verify, refresh, qc]);
+
 
   const { data: sub } = useQuery({
     queryKey: ["my-sub", user?.id],
