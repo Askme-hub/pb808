@@ -22,6 +22,8 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated.dashboard'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated.admin'
+import { Route as AuthenticatedAdminSubscribersRouteImport } from './routes/_authenticated.admin.subscribers'
+import { Route as AuthenticatedAdminRevenueRouteImport } from './routes/_authenticated.admin.revenue'
 import { Route as AuthenticatedAdminPredictionsRouteImport } from './routes/_authenticated.admin.predictions'
 import { Route as ApiPublicPaystackWebhookRouteImport } from './routes/api.public.paystack.webhook'
 
@@ -89,6 +91,18 @@ const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
+const AuthenticatedAdminSubscribersRoute =
+  AuthenticatedAdminSubscribersRouteImport.update({
+    id: '/subscribers',
+    path: '/subscribers',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
+const AuthenticatedAdminRevenueRoute =
+  AuthenticatedAdminRevenueRouteImport.update({
+    id: '/revenue',
+    path: '/revenue',
+    getParentRoute: () => AuthenticatedAdminRoute,
+  } as any)
 const AuthenticatedAdminPredictionsRoute =
   AuthenticatedAdminPredictionsRouteImport.update({
     id: '/predictions',
@@ -116,6 +130,8 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/admin/predictions': typeof AuthenticatedAdminPredictionsRoute
+  '/admin/revenue': typeof AuthenticatedAdminRevenueRoute
+  '/admin/subscribers': typeof AuthenticatedAdminSubscribersRoute
   '/api/public/paystack/webhook': typeof ApiPublicPaystackWebhookRoute
 }
 export interface FileRoutesByTo {
@@ -132,6 +148,8 @@ export interface FileRoutesByTo {
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/admin/predictions': typeof AuthenticatedAdminPredictionsRoute
+  '/admin/revenue': typeof AuthenticatedAdminRevenueRoute
+  '/admin/subscribers': typeof AuthenticatedAdminSubscribersRoute
   '/api/public/paystack/webhook': typeof ApiPublicPaystackWebhookRoute
 }
 export interface FileRoutesById {
@@ -150,6 +168,8 @@ export interface FileRoutesById {
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/_authenticated/admin/predictions': typeof AuthenticatedAdminPredictionsRoute
+  '/_authenticated/admin/revenue': typeof AuthenticatedAdminRevenueRoute
+  '/_authenticated/admin/subscribers': typeof AuthenticatedAdminSubscribersRoute
   '/api/public/paystack/webhook': typeof ApiPublicPaystackWebhookRoute
 }
 export interface FileRouteTypes {
@@ -168,6 +188,8 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/blog/$slug'
     | '/admin/predictions'
+    | '/admin/revenue'
+    | '/admin/subscribers'
     | '/api/public/paystack/webhook'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -184,6 +206,8 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/blog/$slug'
     | '/admin/predictions'
+    | '/admin/revenue'
+    | '/admin/subscribers'
     | '/api/public/paystack/webhook'
   id:
     | '__root__'
@@ -201,6 +225,8 @@ export interface FileRouteTypes {
     | '/_authenticated/dashboard'
     | '/blog/$slug'
     | '/_authenticated/admin/predictions'
+    | '/_authenticated/admin/revenue'
+    | '/_authenticated/admin/subscribers'
     | '/api/public/paystack/webhook'
   fileRoutesById: FileRoutesById
 }
@@ -311,6 +337,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/admin/subscribers': {
+      id: '/_authenticated/admin/subscribers'
+      path: '/subscribers'
+      fullPath: '/admin/subscribers'
+      preLoaderRoute: typeof AuthenticatedAdminSubscribersRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
+    '/_authenticated/admin/revenue': {
+      id: '/_authenticated/admin/revenue'
+      path: '/revenue'
+      fullPath: '/admin/revenue'
+      preLoaderRoute: typeof AuthenticatedAdminRevenueRouteImport
+      parentRoute: typeof AuthenticatedAdminRoute
+    }
     '/_authenticated/admin/predictions': {
       id: '/_authenticated/admin/predictions'
       path: '/predictions'
@@ -330,10 +370,14 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedAdminRouteChildren {
   AuthenticatedAdminPredictionsRoute: typeof AuthenticatedAdminPredictionsRoute
+  AuthenticatedAdminRevenueRoute: typeof AuthenticatedAdminRevenueRoute
+  AuthenticatedAdminSubscribersRoute: typeof AuthenticatedAdminSubscribersRoute
 }
 
 const AuthenticatedAdminRouteChildren: AuthenticatedAdminRouteChildren = {
   AuthenticatedAdminPredictionsRoute: AuthenticatedAdminPredictionsRoute,
+  AuthenticatedAdminRevenueRoute: AuthenticatedAdminRevenueRoute,
+  AuthenticatedAdminSubscribersRoute: AuthenticatedAdminSubscribersRoute,
 }
 
 const AuthenticatedAdminRouteWithChildren =
