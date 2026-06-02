@@ -82,18 +82,24 @@ function AdminHome() {
             </Card>
           ))}
         </div>
-        <Card className="mt-8 flex flex-col items-start gap-3 p-6 md:flex-row md:items-center md:justify-between">
-          <div>
-            <h2 className="font-display text-lg font-bold">Manage Predictions</h2>
-            <p className="text-sm text-muted-foreground">Create, edit, publish and mark results for free & VIP tips.</p>
-          </div>
-          <Link to="/admin/predictions" className="rounded-md bg-gradient-primary px-4 py-2 text-sm font-semibold text-primary-foreground shadow-glow">
-            Open predictions →
-          </Link>
-        </Card>
+        <div className="mt-8 grid gap-4 md:grid-cols-3">
+          {[
+            { to: "/admin/predictions", title: "Manage Predictions", desc: "Create, edit, publish & mark results." },
+            { to: "/admin/subscribers", title: "VIP Subscribers", desc: "Extend, cancel & export subscriber list." },
+            { to: "/admin/revenue", title: "Revenue Analytics", desc: "Daily revenue, plan mix & growth charts." },
+          ].map((c) => (
+            <Card key={c.to} className="flex flex-col gap-3 p-6">
+              <h2 className="font-display text-lg font-bold">{c.title}</h2>
+              <p className="text-sm text-muted-foreground">{c.desc}</p>
+              <Link to={c.to} className="mt-auto inline-block rounded-md bg-gradient-primary px-4 py-2 text-center text-sm font-semibold text-primary-foreground shadow-glow">
+                Open →
+              </Link>
+            </Card>
+          ))}
+        </div>
         <Card className="mt-4 p-6">
           <p className="text-sm text-muted-foreground">
-            Subscribers, Ads, Blog, Settings & Notifications ship in the next phases. Paystack checkout unlocks once you add your keys.
+            Ads, Blog, Settings & Notifications ship in the next phase.
           </p>
         </Card>
       </main>
