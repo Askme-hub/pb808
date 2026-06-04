@@ -3,7 +3,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useRef } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { toast } from "sonner";
-import { Crown, Calendar, Receipt, Bookmark } from "lucide-react";
+import { Crown, Calendar, Receipt, Bookmark, Shield } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Card } from "@/components/ui/card";
@@ -20,7 +20,7 @@ export const Route = createFileRoute("/_authenticated/dashboard")({
 });
 
 function Dashboard() {
-  const { user, isVip, refresh } = useAuth();
+  const { user, isVip, isAdmin, refresh } = useAuth();
   const qc = useQueryClient();
   const verify = useServerFn(verifyPaystackPayment);
   const verified = useRef(false);
@@ -80,8 +80,17 @@ function Dashboard() {
     <div className="flex min-h-screen flex-col">
       <Header />
       <main className="container mx-auto flex-1 px-4 py-12">
-        <h1 className="font-display text-3xl font-extrabold">Hi, {user?.user_metadata?.display_name ?? user?.email?.split("@")[0]}</h1>
-        <p className="mt-1 text-muted-foreground">Your subscription, tips, and payment history.</p>
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <h1 className="font-display text-3xl font-extrabold">Hi, {user?.user_metadata?.display_name ?? user?.email?.split("@")[0]}</h1>
+            <p className="mt-1 text-muted-foreground">Your subscription, tips, and payment history.</p>
+          </div>
+          {isAdmin && (
+            <Button asChild size="lg" className="bg-gradient-primary shadow-glow">
+              <Link to="/admin"><Shield className="mr-2 h-4 w-4" />Open Admin Panel</Link>
+            </Button>
+          )}
+        </div>
 
         <div className="mt-8 grid gap-4 md:grid-cols-3">
           <Card className="p-6">
