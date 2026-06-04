@@ -87,6 +87,7 @@ function AdminHome() {
             { to: "/admin/predictions", title: "Manage Predictions", desc: "Create, edit, publish & mark results." },
             { to: "/admin/subscribers", title: "VIP Subscribers", desc: "Extend, cancel & export subscriber list." },
             { to: "/admin/revenue", title: "Revenue Analytics", desc: "Daily revenue, plan mix & growth charts." },
+            { to: "/admin/roles", title: "Admin Roles", desc: "Grant or revoke admin access by email." },
           ].map((c) => (
             <Card key={c.to} className="flex flex-col gap-3 p-6">
               <h2 className="font-display text-lg font-bold">{c.title}</h2>
