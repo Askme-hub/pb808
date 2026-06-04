@@ -86,25 +86,32 @@ export function Header() {
                 {n.label}
               </Link>
             ))}
-            <div className="mt-2 flex gap-2 pt-2 border-t border-border/60">
+            <div className="mt-2 flex flex-col gap-2 pt-2 border-t border-border/60">
               {user ? (
                 <>
-                  <Button asChild variant="outline" className="flex-1" onClick={() => setOpen(false)}>
-                    <Link to="/dashboard">Dashboard</Link>
-                  </Button>
-                  <Button variant="ghost" onClick={async () => { await signOut(); setOpen(false); navigate({ to: "/" }); }}>
-                    <LogOut className="h-4 w-4" />
-                  </Button>
+                  {isAdmin && (
+                    <Button asChild variant="outline" className="w-full justify-start" onClick={() => setOpen(false)}>
+                      <Link to="/admin"><Shield className="mr-2 h-4 w-4" />Admin Panel</Link>
+                    </Button>
+                  )}
+                  <div className="flex gap-2">
+                    <Button asChild variant="outline" className="flex-1" onClick={() => setOpen(false)}>
+                      <Link to="/dashboard">Dashboard</Link>
+                    </Button>
+                    <Button variant="ghost" onClick={async () => { await signOut(); setOpen(false); navigate({ to: "/" }); }}>
+                      <LogOut className="h-4 w-4" />
+                    </Button>
+                  </div>
                 </>
               ) : (
-                <>
+                <div className="flex gap-2">
                   <Button asChild variant="outline" className="flex-1" onClick={() => setOpen(false)}>
                     <Link to="/login">Login</Link>
                   </Button>
                   <Button asChild className="flex-1 bg-gradient-primary" onClick={() => setOpen(false)}>
                     <Link to="/signup">Sign Up</Link>
                   </Button>
-                </>
+                </div>
               )}
             </div>
           </div>
