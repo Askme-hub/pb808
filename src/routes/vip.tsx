@@ -39,7 +39,7 @@ function VipPage() {
     queryFn: async () => {
       const { data } = await supabase
         .from("subscriptions")
-        .select("plan, status, expires_at, started_at")
+        .select("plan, status, expires_at")
         .eq("user_id", user!.id)
         .eq("status", "active")
         .order("expires_at", { ascending: false, nullsFirst: false })
