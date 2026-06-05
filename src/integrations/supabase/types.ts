@@ -501,6 +501,7 @@ export type Database = {
         }
         Returns: boolean
       }
+      has_staff_access: { Args: { _user_id: string }; Returns: boolean }
     }
     Enums: {
       ad_placement:
