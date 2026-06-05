@@ -8,6 +8,8 @@ type AuthState = {
   loading: boolean;
   isVip: boolean;
   isAdmin: boolean;
+  isSubAdmin: boolean;
+  isStaff: boolean;
   signOut: () => Promise<void>;
   refresh: () => Promise<void>;
 };
@@ -19,6 +21,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
   const [isVip, setIsVip] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isSubAdmin, setIsSubAdmin] = useState(false);
 
   const refresh = async () => {
     const { data } = await supabase.auth.getSession();
@@ -33,13 +36,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           .eq("status", "active")
           .or(`expires_at.is.null,expires_at.gt.${new Date().toISOString()}`)
           .limit(1),
-        supabase.from("user_roles").select("role").eq("user_id", uid).eq("role", "admin").limit(1),
+        supabase.from("user_roles").select("role").eq("user_id", uid).in("role", ["admin", "sub_admin"]),
       ]);
       setIsVip((vipRes.data?.length ?? 0) > 0);
-      setIsAdmin((roleRes.data?.length ?? 0) > 0);
+      const roles = (roleRes.data ?? []).map((r) => r.role);
+      setIsAdmin(roles.includes("admin"));
+      setIsSubAdmin(roles.includes("sub_admin"));
     } else {
       setIsVip(false);
       setIsAdmin(false);
+      setIsSubAdmin(false);
     }
     setLoading(false);
   };
@@ -47,7 +53,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_evt, s) => {
       setSession(s);
-      // Defer DB calls to avoid deadlock with auth state
       setTimeout(() => { refresh(); }, 0);
     });
     refresh();
@@ -61,9 +66,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     loading,
     isVip,
     isAdmin,
+    isSubAdmin,
+    isStaff: isAdmin || isSubAdmin,
     signOut: async () => { await supabase.auth.signOut(); },
     refresh,
-  }), [session, loading, isVip, isAdmin]);
+  }), [session, loading, isVip, isAdmin, isSubAdmin]);
 
   return <AuthCtx.Provider value={value}>{children}</AuthCtx.Provider>;
 }
