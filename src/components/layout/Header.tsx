@@ -15,7 +15,7 @@ const NAV = [
 
 export function Header() {
   const [open, setOpen] = useState(false);
-  const { user, isVip, isAdmin, signOut } = useAuth();
+  const { user, isVip, isStaff, signOut } = useAuth();
   const navigate = useNavigate();
 
   return (

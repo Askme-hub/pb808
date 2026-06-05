@@ -57,7 +57,7 @@ const empty: Partial<Row> = {
 };
 
 function AdminPredictions() {
-  const { isAdmin, loading } = useAuth();
+  const { isStaff, loading } = useAuth();
   const qc = useQueryClient();
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState<Partial<Row> | null>(null);
