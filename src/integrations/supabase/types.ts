@@ -511,7 +511,7 @@ export type Database = {
         | "banner_inline"
         | "native_prediction"
         | "native_blog"
-      app_role: "admin" | "moderator" | "user"
+      app_role: "admin" | "moderator" | "user" | "sub_admin"
       confidence_level: "low" | "medium" | "high" | "very_high"
       notification_type:
         | "new_vip_tip"
@@ -668,7 +668,7 @@ export const Constants = {
         "native_prediction",
         "native_blog",
       ],
-      app_role: ["admin", "moderator", "user"],
+      app_role: ["admin", "moderator", "user", "sub_admin"],
       confidence_level: ["low", "medium", "high", "very_high"],
       notification_type: [
         "new_vip_tip",
