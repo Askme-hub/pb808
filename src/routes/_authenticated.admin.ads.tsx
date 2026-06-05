@@ -30,7 +30,7 @@ export const Route = createFileRoute("/_authenticated/admin/ads")({
   component: AdminAds,
 });
 
-type Placement = "header" | "sidebar" | "in_content" | "footer" | "popup" | "interstitial";
+type Placement = "banner_home" | "banner_sidebar" | "banner_inline" | "banner_footer" | "native_prediction" | "native_blog" | "popup";
 
 type Ad = {
   id: string;
@@ -46,11 +46,11 @@ type Ad = {
   created_at: string;
 };
 
-const PLACEMENTS: Placement[] = ["header", "sidebar", "in_content", "footer", "popup", "interstitial"];
+const PLACEMENTS: Placement[] = ["banner_home", "banner_sidebar", "banner_inline", "banner_footer", "native_prediction", "native_blog", "popup"];
 
 const empty: Partial<Ad> = {
   name: "",
-  placement: "header",
+  placement: "banner_home",
   network: "",
   code: "",
   is_active: true,
