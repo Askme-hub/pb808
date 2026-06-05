@@ -239,7 +239,7 @@ function AdDialog({
 }) {
   if (!value) return null;
   const set = <K extends keyof Ad>(k: K, v: Ad[K]) => onChange({ ...value, [k]: v });
-  const isPopup = value.placement === "popup" || value.placement === "interstitial";
+  const isPopup = value.placement === "popup";
 
   return (
     <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
