@@ -39,7 +39,7 @@ export function Header() {
         <div className="hidden items-center gap-2 md:flex">
           {user ? (
             <>
-              {isAdmin && (
+              {isStaff && (
                 <Button asChild variant="outline" size="sm">
                   <Link to="/admin"><Shield className="mr-1 h-4 w-4" />Admin</Link>
                 </Button>
@@ -89,7 +89,7 @@ export function Header() {
             <div className="mt-2 flex flex-col gap-2 pt-2 border-t border-border/60">
               {user ? (
                 <>
-                  {isAdmin && (
+                  {isStaff && (
                     <Button asChild variant="outline" className="w-full justify-start" onClick={() => setOpen(false)}>
                       <Link to="/admin"><Shield className="mr-2 h-4 w-4" />Admin Panel</Link>
                     </Button>

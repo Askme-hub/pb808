@@ -64,7 +64,7 @@ function AdminPredictions() {
 
   const { data, isLoading } = useQuery({
     queryKey: ["admin-predictions"],
-    enabled: isAdmin,
+    enabled: isStaff,
     queryFn: async () => {
       const { data, error } = await supabase
         .from("predictions").select("*")
@@ -119,7 +119,7 @@ function AdminPredictions() {
   });
 
   if (loading) return null;
-  if (!isAdmin) {
+  if (!isStaff) {
     return (
       <div className="flex min-h-screen flex-col">
         <Header />
