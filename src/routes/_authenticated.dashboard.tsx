@@ -20,7 +20,7 @@ export const Route = createFileRoute("/_authenticated/dashboard")({
 });
 
 function Dashboard() {
-  const { user, isVip, isAdmin, refresh } = useAuth();
+  const { user, isVip, isStaff, refresh } = useAuth();
   const qc = useQueryClient();
   const verify = useServerFn(verifyPaystackPayment);
   const verified = useRef(false);
