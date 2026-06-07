@@ -101,7 +101,14 @@ export function Header() {
                 <>
                   {isStaff && (
                     <Button asChild variant="outline" className="w-full justify-start" onClick={() => setOpen(false)}>
-                      <Link to="/admin"><Shield className="mr-2 h-4 w-4" />Admin Panel</Link>
+                      <Link to="/admin">
+                        <Shield className="mr-2 h-4 w-4" />Admin Panel
+                        {unread > 0 && (
+                          <Badge className="ml-auto h-5 min-w-5 justify-center rounded-full bg-gradient-primary px-1.5 text-[10px] font-bold text-primary-foreground shadow-glow">
+                            {unread > 99 ? "99+" : unread}
+                          </Badge>
+                        )}
+                      </Link>
                     </Button>
                   )}
                   <div className="flex gap-2">
