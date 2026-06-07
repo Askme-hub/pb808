@@ -2,8 +2,10 @@ import { Link, useNavigate } from "@tanstack/react-router";
 import { Menu, X, LogOut, User as UserIcon, Crown, Shield } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { Wordmark } from "@/components/brand/Logo";
 import { useAuth } from "@/lib/auth";
+import { useStaffNotifications } from "@/hooks/use-staff-notifications";
 
 const NAV = [
   { to: "/", label: "Home" },
