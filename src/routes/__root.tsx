@@ -119,9 +119,10 @@ function RootComponent() {
     <Preloader>
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
-          <StaffNotificationsMount />
-          <Outlet />
-          <Toaster position="top-center" richColors />
+          <StaffNotificationsProvider>
+            <Outlet />
+            <Toaster position="top-center" richColors />
+          </StaffNotificationsProvider>
         </AuthProvider>
       </QueryClientProvider>
     </Preloader>
