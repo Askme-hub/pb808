@@ -18,6 +18,7 @@ const NAV = [
 export function Header() {
   const [open, setOpen] = useState(false);
   const { user, isVip, isStaff, signOut } = useAuth();
+  const { unread } = useStaffNotifications();
   const navigate = useNavigate();
 
   return (
