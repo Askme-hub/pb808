@@ -2,8 +2,10 @@ import { Link, useNavigate } from "@tanstack/react-router";
 import { Menu, X, LogOut, User as UserIcon, Crown, Shield } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { Wordmark } from "@/components/brand/Logo";
 import { useAuth } from "@/lib/auth";
+import { useStaffNotifications } from "@/hooks/use-staff-notifications";
 
 const NAV = [
   { to: "/", label: "Home" },
@@ -16,6 +18,7 @@ const NAV = [
 export function Header() {
   const [open, setOpen] = useState(false);
   const { user, isVip, isStaff, signOut } = useAuth();
+  const { unread } = useStaffNotifications();
   const navigate = useNavigate();
 
   return (
@@ -40,8 +43,15 @@ export function Header() {
           {user ? (
             <>
               {isStaff && (
-                <Button asChild variant="outline" size="sm">
-                  <Link to="/admin"><Shield className="mr-1 h-4 w-4" />Admin</Link>
+                <Button asChild variant="outline" size="sm" className="relative">
+                  <Link to="/admin">
+                    <Shield className="mr-1 h-4 w-4" />Admin
+                    {unread > 0 && (
+                      <Badge className="ml-1 h-5 min-w-5 justify-center rounded-full bg-gradient-primary px-1.5 text-[10px] font-bold text-primary-foreground shadow-glow">
+                        {unread > 99 ? "99+" : unread}
+                      </Badge>
+                    )}
+                  </Link>
                 </Button>
               )}
               <Button asChild variant="ghost" size="sm">
@@ -91,7 +101,14 @@ export function Header() {
                 <>
                   {isStaff && (
                     <Button asChild variant="outline" className="w-full justify-start" onClick={() => setOpen(false)}>
-                      <Link to="/admin"><Shield className="mr-2 h-4 w-4" />Admin Panel</Link>
+                      <Link to="/admin">
+                        <Shield className="mr-2 h-4 w-4" />Admin Panel
+                        {unread > 0 && (
+                          <Badge className="ml-auto h-5 min-w-5 justify-center rounded-full bg-gradient-primary px-1.5 text-[10px] font-bold text-primary-foreground shadow-glow">
+                            {unread > 99 ? "99+" : unread}
+                          </Badge>
+                        )}
+                      </Link>
                     </Button>
                   )}
                   <div className="flex gap-2">

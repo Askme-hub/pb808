@@ -20,7 +20,7 @@ export const Route = createFileRoute("/_authenticated/dashboard")({
 });
 
 function Dashboard() {
-  const { user, isVip, isAdmin, refresh } = useAuth();
+  const { user, isVip, isStaff, refresh } = useAuth();
   const qc = useQueryClient();
   const verify = useServerFn(verifyPaystackPayment);
   const verified = useRef(false);
@@ -85,7 +85,7 @@ function Dashboard() {
             <h1 className="font-display text-3xl font-extrabold">Hi, {user?.user_metadata?.display_name ?? user?.email?.split("@")[0]}</h1>
             <p className="mt-1 text-muted-foreground">Your subscription, tips, and payment history.</p>
           </div>
-          {isAdmin && (
+          {isStaff && (
             <Button asChild size="lg" className="bg-gradient-primary shadow-glow">
               <Link to="/admin"><Shield className="mr-2 h-4 w-4" />Open Admin Panel</Link>
             </Button>

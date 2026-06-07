@@ -14,7 +14,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { AuthProvider } from "@/lib/auth";
 import { Toaster } from "@/components/ui/sonner";
 import { Preloader } from "@/components/Preloader";
-import { StaffNotificationsMount } from "@/hooks/use-staff-notifications";
+import { StaffNotificationsProvider } from "@/hooks/use-staff-notifications";
 
 function NotFoundComponent() {
   return (
@@ -119,9 +119,10 @@ function RootComponent() {
     <Preloader>
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
-          <StaffNotificationsMount />
-          <Outlet />
-          <Toaster position="top-center" richColors />
+          <StaffNotificationsProvider>
+            <Outlet />
+            <Toaster position="top-center" richColors />
+          </StaffNotificationsProvider>
         </AuthProvider>
       </QueryClientProvider>
     </Preloader>
